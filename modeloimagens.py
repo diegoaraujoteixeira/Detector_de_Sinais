@@ -99,21 +99,17 @@ AUTOTUNE = tf.data.AUTOTUNE
 treino_ds = treino_ds.cache().prefetch(buffer_size=AUTOTUNE)
 validacao_ds = validacao_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
-"""###2. Definição do Callback Personalizado (Opcional, mas útil)"""
+"""###2. Definição do Callback Personalizado"""
 
-# --- 2. Definição do Callback Personalizado (Opcional, mas útil) ---
+# --- 2. Definição do Callback Personalizado ---
 class MyCallback(tf.keras.callbacks.Callback):
   def on_epoch_end(self, epoch, logs={}):
     if(logs.get('accuracy') is not None and logs.get('accuracy') >= 0.95):
       print("\nAlcançamos 95% de acurácia de treino. Parando o treinamento!")
       self.model.stop_training = True
 
-callbacks = [MyCallback()] # Use a classe MyCallback definida acima
-# Você pode adicionar também EarlyStopping e ReduceLROnPlateau do Keras:
-# from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
-# early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
-# reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0.00001, verbose=1)
-# callbacks = [early_stopping, reduce_lr, MyCallback()]
+callbacks = [MyCallback()] 
+
 
 """###3. Data Augmentation (Aumento de Dados)"""
 
@@ -130,7 +126,7 @@ data_augmentation = tf.keras.Sequential([
 # --- 4. Construção do Modelo CNN ---
 modelo = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(altura, largura, 3)),
-    data_augmentation, # Camada de aumento de dados (apenas durante o treino, deterministicamente na inferência)
+    data_augmentation, # Camada de aumento de dados 
     tf.keras.layers.Rescaling(1./255), # Normaliza os pixels para o range [0, 1]
 
     # Camadas de Convolução e Max Pooling
@@ -203,17 +199,17 @@ def plota_resultados(history, epocas_treinadas):
 
 plota_resultados(history, len(history.history['accuracy'])) # Passa o número real de épocas treinadas
 
-"""###7. Salvar o Modelo Treinado e Nomes das Classes"""
+"""###7. Salva o Modelo Treinado e Nomes das Classes"""
 
-# --- 7. Salvar o Modelo Treinado e Nomes das Classes ---
+# --- 7. Salva o Modelo Treinado e Nomes das Classes ---
 model_save_path = 'meu_modelo_gestos.keras'
 class_names_save_path = 'class_names.json'
 
-# Salvar o modelo completo no formato Keras v3
+# Salva o modelo completo no formato Keras v3
 modelo.save(model_save_path)
 print(f"\nModelo salvo em: {model_save_path}")
 
-# Salvar os nomes das classes para uso no aplicativo Streamlit
+# Salva os nomes das classes para uso no aplicativo Streamlit
 with open(class_names_save_path, 'w') as f:
     json.dump(class_names, f)
 print(f"Nomes das classes salvos em: {class_names_save_path}")
