@@ -7,11 +7,11 @@ import json
 import os
 import gdown
 import pandas as pd
-# --- Caminhos dos Arquivos Salvos (ajuste seus IDs do Drive aqui se usar gdown) ---
+
 MODEL_FILE_NAME = 'meu_modelo_gestos.keras'
 CLASS_NAMES_FILE_NAME = 'class_names.json'
 
-# --- **SUBSTITUA PELOS IDs REAIS DOS SEUS ARQUIVOS NO GOOGLE DRIVE** ---
+
 MODEL_DRIVE_ID = 'SEU_ID_DO_MODELO_AQUI' # <--- OBRIGATÓRIO ATUALIZAR
 CLASS_NAMES_DRIVE_ID = 'SEU_ID_DO_NOMES_CLASSES_AQUI' # <--- OBRIGATÓRIO ATUALIZAR
 
@@ -86,13 +86,12 @@ def main():
         st.write(f"O modelo prevê que o gesto é: **{predicted_class_name}**")
         st.write(f"Confiança do modelo: **{confidence*100:.2f}%**")
 
-        # --- Mova o bloco do confianca > 0.8 para cá, se quiser a animação condicional ---
+       
         if confidence > 0.8:
             st.balloons()
         # --- Fim do bloco de animação condicional ---
         
-        # --- Mova o cálculo e exibição de df_probs para fora de qualquer if de confiança ---
-        # Ele deve sempre ser exibido, independentemente da confiança.
+       
         st.write("---")
         st.subheader("Probabilidades para cada classe:")
         df_probs = pd.DataFrame({
