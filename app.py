@@ -12,8 +12,8 @@ MODEL_FILE_NAME = 'meu_modelo_gestos.keras'
 CLASS_NAMES_FILE_NAME = 'class_names.json'
 
 
-MODEL_DRIVE_ID = 'SEU_ID_DO_MODELO_AQUI' # <--- OBRIGATÓRIO ATUALIZAR
-CLASS_NAMES_DRIVE_ID = 'SEU_ID_DO_NOMES_CLASSES_AQUI' # <--- OBRIGATÓRIO ATUALIZAR
+MODEL_DRIVE_ID = 'SEU_ID_DO_MODELO_AQUI' 
+CLASS_NAMES_DRIVE_ID = 'SEU_ID_DO_NOMES_CLASSES_AQUI' 
 
 # Funções de carregamento (mantidas iguais)
 @st.cache_resource
@@ -42,7 +42,7 @@ def load_class_names(class_names_path):
         class_names = json.load(f)
     return class_names
 
-# Função de Pré-processamento de Imagem para Previsão (mantida igual)
+# Função de Pré-processamento de Imagem para Previsão
 def preprocess_image(image_data, target_height, target_width):
     img = PIL.Image.open(image_data).convert('RGB')
     img = img.resize((target_width, target_height))
@@ -90,8 +90,6 @@ def main():
         if confidence > 0.8:
             st.balloons()
         # --- Fim do bloco de animação condicional ---
-        
-       
         st.write("---")
         st.subheader("Probabilidades para cada classe:")
         df_probs = pd.DataFrame({
